@@ -21,6 +21,7 @@ pipeline {
         stage('Deploy') {
             steps {
 		    sh '''
+		    	build_num=${BUILD_NUMBER}
 		    	echo '[Unit]
 			Description=My SpringBoot App
 			
