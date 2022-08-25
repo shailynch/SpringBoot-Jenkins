@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
 		    sh '''
-		    	java -jar /jenkins/project-wars/project-${BUILD_NUMBER}.war
+		    	java -jar /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
 		    '''
                 // deploy file using given from earlier 
             }
