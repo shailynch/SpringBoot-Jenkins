@@ -28,7 +28,7 @@ pipeline {
 			User=ubuntu
 			Type=simple
 			
-			ExecStart=/usr/bin/java -jar /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
+			ExecStart=/usr/bin/java -jar /home/jenkins/project-wars/project-'$build_num'.war
 			
 			[Install]
 			WantedBy=multi-user.target' > /home/jenkins/myApp.service
