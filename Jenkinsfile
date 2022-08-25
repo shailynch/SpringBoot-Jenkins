@@ -3,41 +3,34 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                // test first so if the tests fail the build will not continue
-              sh 'mvn clean test'
+                sh 'mvn clean test'
             }
         }
         stage('Build') {
             steps {
-                //build if passed
-              sh '''
-                  mvn clean install
-                  mv ./target/*.war /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
-              ''' //build withs dependicies  
-                  //make directory -p means no error if directory exists
-                  //move out of target file and rename 
+                sh '''
+                mvn clean install
+                mkdir -p /home/jenkins/project-wars
+                mv ./target/*.war /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
+                '''
             }
         }
         stage('Deploy') {
             steps {
-		    sh '''
-		    	build_num=${BUILD_NUMBER}
-		    	echo '[Unit]
-			Description=My SpringBoot App
-			
-			[Service]
-			User=ubuntu
-			Type=simple
-			
-			ExecStart=/usr/bin/java -jar /home/jenkins/project-wars/project-'$build_num'.war
-			
-			[Install]
-			WantedBy=multi-user.target' > /home/jenkins/myApp.service
-			sudo mv /home/jenkins/myApp.service /etc/systemd/system/myApp.service		
-			sudo systemctl daemon-reload
-			sudo systemctl restart MyApp
-			'''
-                // deploy file using given from earlier 
+                sh '''
+                build_num=${BUILD_NUMBER}
+                echo '[Unit]
+Description=My SpringBoot App
+[Service]
+User=jenkins
+Type=simple
+ExecStart=/usr/bin/java -jar /home/jenkins/project-wars/project-'$build_num'.war
+[Install]
+WantedBy=multi-user.target' > /home/jenkins/MyApp.service
+                sudo mv /home/jenkins/MyApp.service /etc/systemd/system/MyApp.service
+                sudo systemctl daemon-reload
+                sudo systemctl restart MyApp
+                '''
             }
         }
     }
