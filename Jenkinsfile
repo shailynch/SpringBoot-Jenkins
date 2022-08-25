@@ -12,7 +12,6 @@ pipeline {
                 //build if passed
               sh '''
                   mvn clean install
-                  mkdir -p /home/jenkins/project-wars
                   mv ./target/* .war /jenkins/project-wars/project-${BUILD_NUMBER}.war
               ''' //build withs dependicies  
                   //make directory -p means no error if directory exists
@@ -22,7 +21,7 @@ pipeline {
         stage('Deploy') {
             steps {
 		    sh '''
-		    	nohup java -jar /home/jenkins/project-wars/project-${BUILD_NUMBER}.war &
+		    	java -jar /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
 		    '''
                 // deploy file using given from earlier 
             }
