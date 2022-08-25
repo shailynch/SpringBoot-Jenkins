@@ -22,17 +22,14 @@ pipeline {
             steps {
 		    sh '''
 		    	echo '[Unit]
-Description-My SpringBoot App
-
-[Servicec]
-User-ubuntu
-Type-simple
-
-ExecStart=/usr/bin/java -jar /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
-
+Description=My SpringBoot App
+[Service]
+User=ubuntu
+Type=simple
+ExecStart=/home/jenkins/appservice/start.sh
 [Install]
-WantedBy=multi-user.target' > /home/jenkins/MyApp.service
-		sudo mv /home/jenkins/MyApp.service /etc/systemd/system/MyApp.service
+WantedBy=multi-user.target' > /home/jenkins/myApp.service
+		sudo mv /home/jenkins/myApp.service /etc/systemd/system/myApp.service
 		sudo systemctl daemon-reload
 		sudo systemctl restart MyApp
 		'''
