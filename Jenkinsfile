@@ -12,7 +12,6 @@ pipeline {
                 //build if passed
               sh '''
                   mvn clean install
-		  mkdir -p /home/project-wars
                   mv ./target/* .war /home/jenkins/project-wars/project-${BUILD_NUMBER}.war
               ''' //build withs dependicies  
                   //make directory -p means no error if directory exists
